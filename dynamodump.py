@@ -32,8 +32,9 @@ def get_table_name_matches(conn, table_name_wildcard, separator):
 
   matching_tables = []
   for table_name in all_tables:
-      if match:
-        matching_tables.append(table_name)
+    match = re.match(table_name_wildcard, table_name)
+    if match:
+      matching_tables.append(table_name)
 
   return matching_tables
 

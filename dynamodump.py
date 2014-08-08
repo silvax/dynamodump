@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import boto.dynamodb2.layer1, json, sys, time, shutil, os, argparse, logging, datetime, threading
+import boto.dynamodb2.layer1, json, sys, time, shutil, os, argparse, logging, datetime, threading, re
 from boto.dynamodb2.layer1 import DynamoDBConnection
 
 JSON_INDENT = 2
@@ -32,8 +32,8 @@ def get_table_name_matches(conn, table_name_wildcard, separator):
 
   matching_tables = []
   for table_name in all_tables:
-    if table_name.split(separator, 1)[0] == table_name_wildcard.split("*", 1)[0]:
-      matching_tables.append(table_name)
+      if match:
+        matching_tables.append(table_name)
 
   return matching_tables
 
@@ -411,4 +411,3 @@ elif args.mode == "restore":
   else:
     delete_table(conn, sleep_interval, dest_table)
     do_restore(conn, sleep_interval, args.srcTable, dest_table, args.writeCapacity)
-
